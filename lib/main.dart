@@ -1,4 +1,5 @@
 // import 'package:aha_camping_web/pages/under_construction/under_construction_page.dart';
+import 'package:aha_camping_web/pages/products/product_details_page.dart';
 import 'package:aha_camping_web/theme/web_theme.dart';
 import 'package:flutter/material.dart';
 import 'pages/home/home_page.dart';
@@ -16,7 +17,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'AHA Camping',
       theme: WebTheme.webTheme,
-      home: const HomePage(),
+      home: const ProductDetailsPage(
+        pageTitle: "Foldable Barbeque Stand",
+      ),
     );
   }
 }
