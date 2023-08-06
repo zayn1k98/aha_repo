@@ -1,5 +1,4 @@
 import 'package:aha_camping_web/pages/products/product_details_page.dart';
-import 'package:aha_camping_web/responsive_layout/dimensions.dart';
 import 'package:aha_camping_web/responsive_layout/responsive_layout.dart';
 import 'package:aha_camping_web/theme/web_theme.dart';
 import 'package:flutter/material.dart';

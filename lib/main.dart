@@ -2,7 +2,6 @@
 import 'package:aha_camping_web/pages/products/product_details_page.dart';
 import 'package:aha_camping_web/theme/web_theme.dart';
 import 'package:flutter/material.dart';
-import 'pages/home/home_page.dart';
 
 void main() {
   runApp(const MyApp());
