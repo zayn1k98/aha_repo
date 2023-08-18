@@ -1,11 +1,17 @@
+import 'package:aha_camping_web/pages/home/home_page.dart';
 import 'package:aha_camping_web/responsive_layout/responsive_layout.dart';
 import 'package:aha_camping_web/theme/web_theme.dart';
 import 'package:flutter/material.dart';
 
-class ProductDetailsPage extends StatelessWidget {
+class ProductDetailsPage extends StatefulWidget {
   final String pageTitle;
   const ProductDetailsPage({super.key, required this.pageTitle});
 
+  @override
+  State<ProductDetailsPage> createState() => _ProductDetailsPageState();
+}
+
+class _ProductDetailsPageState extends State<ProductDetailsPage> {
   @override
   Widget build(BuildContext context) {
     return ResponsiveLayout(
@@ -22,7 +28,7 @@ class ProductDetailsPage extends StatelessWidget {
           color: Colors.white,
         ),
         title: Text(
-          pageTitle,
+          widget.pageTitle,
           style: Theme.of(context).textTheme.titleLarge!.copyWith(
                 fontWeight: FontWeight.bold,
                 color: WebTheme.lightText,
@@ -33,6 +39,25 @@ class ProductDetailsPage extends StatelessWidget {
     );
   }
 
+  List productImages = [
+    "https://www.ugaoo.com/cdn/shop/files/DSC_5427.jpg?v=1688453434&width=750",
+    "https://www.ugaoo.com/cdn/shop/files/DSC_5393.jpg?v=1689323035",
+    "https://www.ugaoo.com/cdn/shop/files/charcoal-barbeque-grill-32938217111684.jpg?v=1688718400&width=1500",
+    "https://www.ugaoo.com/cdn/shop/files/DSC_5453.jpg?v=1688453433",
+    "https://www.ugaoo.com/cdn/shop/files/DSC_5444.jpg?v=1688453434",
+  ];
+
+  List productFeatures = [
+    "Premium Quality: Crafted from 304 grade stainless steel, this stand is durable, long-lasting, and resistant to rust and corrosion.",
+    "Compact and Portable",
+    "Easy to clean after usage",
+    "Weighs only around 4 kgs",
+    "Easy to assemble and disassemble",
+    "Adaptable to various outdoor conditions",
+  ];
+
+  int quantity = 1;
+
   Widget desktopBody(BuildContext context) {
     return Scaffold(
       body: ListView(
@@ -40,105 +65,382 @@ class ProductDetailsPage extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.all(16),
-            child: SizedBox(
-              height: MediaQuery.of(context).size.height / 2,
-              child: Row(
-                children: [
-                  productImage(context),
-                  Expanded(
-                    flex: 2,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 16),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  "Foldable Barbeque Stand",
-                                  style:
-                                      Theme.of(context).textTheme.headlineSmall,
-                                ),
-                                ElevatedButton.icon(
-                                  onPressed: () {},
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.green,
-                                    padding: const EdgeInsets.all(16),
-                                  ),
-                                  icon: const Icon(
-                                    Icons.add,
-                                    color: Colors.white,
-                                  ),
-                                  label: Text(
-                                    "Add To Cart",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .labelMedium!
-                                        .copyWith(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold,
-                                          color: WebTheme.lightText,
-                                        ),
-                                  ),
-                                ),
-                              ],
-                            ),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(30),
+                    child: Column(
+                      children: [
+                        productImage(context),
+                        imageChooser(context),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          child: Divider(
+                            color: Colors.grey[300],
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 20),
-                            child: Row(
-                              children: [
-                                SizedBox(
-                                  height: 18,
+                        ),
+                        Container(
+                          height: 85,
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Colors.grey[300]!,
+                              width: 2.5,
+                            ),
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.local_shipping,
+                                color: Colors.grey[700],
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 10),
+                                child: Text(
+                                  "Free Shipping. Estimated delivery in 2-4 days,",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.grey[700],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Expanded(
+                  flex: 2,
+                  child: Padding(
+                    padding: const EdgeInsets.all(30),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "Foldable Barbeque Stand",
+                              style: Theme.of(context).textTheme.headlineLarge,
+                            ),
+                          ],
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 20),
+                          child: Row(
+                            children: [
+                              Text(
+                                "4.0",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .labelMedium!
+                                    .copyWith(
+                                      fontSize: 18,
+                                      color: Colors.grey[800],
+                                      fontWeight: FontWeight.bold,
+                                      letterSpacing: 0.5,
+                                    ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 4),
+                                child: SizedBox(
+                                  height: 24,
                                   child: ListView.builder(
                                     shrinkWrap: true,
                                     scrollDirection: Axis.horizontal,
                                     itemCount: 5,
                                     itemBuilder: (context, index) {
-                                      return const Icon(
-                                        Icons.star,
-                                        color: Colors.grey,
-                                        size: 18,
+                                      return Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 2,
+                                        ),
+                                        child: Icon(
+                                          Icons.star,
+                                          color: index == 4
+                                              ? Colors.grey[400]
+                                              : Colors.amber,
+                                          size: 20,
+                                        ),
                                       );
                                     },
                                   ),
                                 ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 8),
+                                child: Text(
+                                  "(123 reviews)",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .labelMedium!
+                                      .copyWith(
+                                        fontSize: 15,
+                                        color: Colors.grey[500],
+                                        letterSpacing: 0.25,
+                                      ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 20),
+                          child: Text(
+                            "Portable and high quality foldable barbeque stand made from 304 grade Stainless Steel and weighs in at around 4kgs only which makes it extremely sturdy and built to withstand even the cruelest grilling conditions. Designed with convinience in mind such as being easy to assemble, disassemble and simple to clean.",
+                            style:
+                                Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                      fontSize: 18,
+                                      color: Colors.grey[700],
+                                      letterSpacing: 0.25,
+                                      height: 1.6,
+                                    ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 30),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.grey[200],
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            child: Column(
+                              children: [
+                                const SizedBox(height: 30),
                                 Padding(
-                                  padding: const EdgeInsets.only(left: 8),
-                                  child: Text(
-                                    "0",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .labelMedium!
-                                        .copyWith(
-                                          fontSize: 18,
-                                          color: Colors.grey,
-                                          fontWeight: FontWeight.bold,
-                                        ),
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 30,
                                   ),
-                                )
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              "₹ 8,000",
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyLarge!
+                                                  .copyWith(
+                                                    fontSize: 20,
+                                                    color: Colors.grey,
+                                                    decoration: TextDecoration
+                                                        .lineThrough,
+                                                  ),
+                                            ),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.only(top: 8),
+                                              child: Text(
+                                                "₹ 6,000",
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyLarge!
+                                                    .copyWith(
+                                                      fontSize: 28,
+                                                      color: Colors.green[600],
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(4),
+                                          child: Row(
+                                            children: [
+                                              IconButton(
+                                                onPressed: () {
+                                                  setState(() {
+                                                    if (quantity == 1) {
+                                                      ScaffoldMessenger.of(
+                                                              context)
+                                                          .showSnackBar(
+                                                        const SnackBar(
+                                                          content: Text(
+                                                            "Cannot remove minimum order quantity",
+                                                          ),
+                                                        ),
+                                                      );
+                                                    } else {
+                                                      quantity--;
+                                                    }
+                                                  });
+                                                },
+                                                icon: Icon(
+                                                  Icons.remove,
+                                                  color: Colors.green[600],
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(10),
+                                                child: Text(
+                                                  "$quantity",
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyLarge!
+                                                      .copyWith(
+                                                        fontSize: 20,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color: Colors.grey[800],
+                                                      ),
+                                                ),
+                                              ),
+                                              IconButton(
+                                                onPressed: () {
+                                                  setState(() {
+                                                    if (quantity == 5) {
+                                                      ScaffoldMessenger.of(
+                                                              context)
+                                                          .showSnackBar(
+                                                        const SnackBar(
+                                                          content: Text(
+                                                            "Maximum order limit is 5",
+                                                          ),
+                                                        ),
+                                                      );
+                                                    } else {
+                                                      quantity++;
+                                                    }
+                                                  });
+                                                },
+                                                icon: Icon(
+                                                  Icons.add_rounded,
+                                                  color: Colors.green[600],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 20),
+                                        child: ElevatedButton(
+                                          onPressed: () {
+                                            Navigator.push(context,
+                                                MaterialPageRoute(
+                                                    builder: (context) {
+                                              return const HomePage();
+                                            }));
+                                          },
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor: Colors.green[600],
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(16),
+                                            child: Text(
+                                              "Order Now",
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyLarge!
+                                                  .copyWith(
+                                                    fontSize: 20,
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.bold,
+                                                    letterSpacing: 0.25,
+                                                  ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                const SizedBox(height: 10),
+                                const Divider(
+                                  color: Colors.white,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(16),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "Features:",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyLarge!
+                                            .copyWith(
+                                              fontSize: 20,
+                                              color: Colors.grey[800],
+                                              fontWeight: FontWeight.bold,
+                                              letterSpacing: 0.25,
+                                            ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 20),
+                                        child: ListView.builder(
+                                          shrinkWrap: true,
+                                          physics:
+                                              const NeverScrollableScrollPhysics(),
+                                          itemCount: productFeatures.length,
+                                          itemBuilder: (context, index) {
+                                            return Padding(
+                                              padding: const EdgeInsets.all(4),
+                                              child: Row(
+                                                children: [
+                                                  Icon(
+                                                    Icons.done_rounded,
+                                                    color: Colors.green[600],
+                                                    size: 28,
+                                                  ),
+                                                  Expanded(
+                                                    child: Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                        left: 8,
+                                                      ),
+                                                      child: Text(
+                                                        productFeatures[index],
+                                                        style: Theme.of(context)
+                                                            .textTheme
+                                                            .bodyLarge!
+                                                            .copyWith(
+                                                              fontSize: 16,
+                                                              color: Colors
+                                                                  .grey[700],
+                                                              letterSpacing:
+                                                                  0.25,
+                                                            ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
                               ],
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 30),
-                            child: Text(
-                              "Portable and high quality foldable barbeque stand made from 304 grade Stainless Steel and weighs in at around 4kgs only which makes it extremely sturdy and built to withstand even the cruelest grilling conditions. Designed with convinience in mind such as being easy to assemble, disassemble and simple to clean.",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyLarge!
-                                  .copyWith(fontSize: 18),
-                            ),
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ],
@@ -147,11 +449,64 @@ class ProductDetailsPage extends StatelessWidget {
   }
 
   Widget productImage(BuildContext context) {
-    return Expanded(
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.blue,
-          borderRadius: BorderRadius.circular(16),
+    return Container(
+      height: MediaQuery.of(context).size.height * 0.55,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(16),
+        image: DecorationImage(
+          image: NetworkImage(
+            productImages[selectedIndex],
+          ),
+          fit: BoxFit.cover,
+        ),
+      ),
+    );
+  }
+
+  int selectedIndex = 0;
+
+  Widget imageChooser(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 16),
+      child: SizedBox(
+        height: 60,
+        child: ListView.builder(
+          shrinkWrap: true,
+          scrollDirection: Axis.horizontal,
+          itemCount: productImages.length,
+          itemBuilder: (context, index) {
+            return Padding(
+              padding: const EdgeInsets.all(5),
+              child: GestureDetector(
+                onTap: () {
+                  setState(() {
+                    selectedIndex = index;
+                  });
+                },
+                child: Container(
+                  height: 50,
+                  width: 50,
+                  decoration: BoxDecoration(
+                    color: selectedIndex == index
+                        ? Colors.transparent
+                        : Colors.grey[200]!.withOpacity(0.5),
+                    border: Border.all(
+                      color: selectedIndex == index
+                          ? Colors.blue
+                          : Colors.transparent,
+                    ),
+                    borderRadius: BorderRadius.circular(10),
+                    image: DecorationImage(
+                      image: NetworkImage(
+                        productImages[index],
+                      ),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+              ),
+            );
+          },
         ),
       ),
     );
