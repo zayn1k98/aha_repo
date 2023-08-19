@@ -333,11 +333,11 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                                             const EdgeInsets.only(left: 20),
                                         child: ElevatedButton(
                                           onPressed: () {
-                                            Navigator.push(context,
-                                                MaterialPageRoute(
-                                                    builder: (context) {
-                                              return const LandingPage();
-                                            }));
+                                            // Navigator.push(context,
+                                            //     MaterialPageRoute(
+                                            //         builder: (context) {
+                                            //   return const LandingPage();
+                                            // }));
                                           },
                                           style: ElevatedButton.styleFrom(
                                             backgroundColor: Colors.green[600],
