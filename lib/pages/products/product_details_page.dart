@@ -1,4 +1,4 @@
-import 'package:aha_camping_web/pages/home/home_page.dart';
+import 'package:aha_camping_web/pages/home/landing_page.dart';
 import 'package:aha_camping_web/responsive_layout/responsive_layout.dart';
 import 'package:aha_camping_web/theme/web_theme.dart';
 import 'package:flutter/material.dart';
@@ -49,11 +49,10 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
 
   List productFeatures = [
     "Premium Quality: Crafted from 304 grade stainless steel, this stand is durable, long-lasting, and resistant to rust and corrosion.",
-    "Compact and Portable",
-    "Easy to clean after usage",
-    "Weighs only around 4 kgs",
-    "Easy to assemble and disassemble",
-    "Adaptable to various outdoor conditions",
+    "Portable Design: With a foldable design, it's easy to take this stand on the go, making it perfect for outdoor adventures, camping trips, or backyard BBQs.",
+    "Heavy Gauge Construction: Weighing in at around 4kgs, this stand is sturdy and built to withstand even the toughest grilling conditions.",
+    "Easy to Use: Designed with convenience in mind, this stand is simple to assemble, disassemble, and clean.",
+    "Great Value: Priced competitively, this stand is an excellent investment for anyone looking to take their grilling game to the next level. Don't miss out on this must-have accessory!",
   ];
 
   int quantity = 1;
@@ -191,7 +190,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                         Padding(
                           padding: const EdgeInsets.only(top: 20),
                           child: Text(
-                            "Portable and high quality foldable barbeque stand made from 304 grade Stainless Steel and weighs in at around 4kgs only which makes it extremely sturdy and built to withstand even the cruelest grilling conditions. Designed with convinience in mind such as being easy to assemble, disassemble and simple to clean.",
+                            "Introducing the ultimate outdoor cooking companion - our foldable barbecue stand made from high-quality 304 grade stainless steel! With a weight of just 4kgs and heavy-gauge construction, it's the perfect choice for all your grilling needs. Don't settle for less - invest in quality today!",
                             style:
                                 Theme.of(context).textTheme.bodyLarge!.copyWith(
                                       fontSize: 18,
@@ -337,7 +336,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                                             Navigator.push(context,
                                                 MaterialPageRoute(
                                                     builder: (context) {
-                                              return const HomePage();
+                                              return const LandingPage();
                                             }));
                                           },
                                           style: ElevatedButton.styleFrom(
@@ -386,7 +385,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                                             ),
                                       ),
                                       Padding(
-                                        padding: const EdgeInsets.only(top: 20),
+                                        padding: const EdgeInsets.only(top: 10),
                                         child: ListView.builder(
                                           shrinkWrap: true,
                                           physics:
@@ -394,7 +393,11 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                                           itemCount: productFeatures.length,
                                           itemBuilder: (context, index) {
                                             return Padding(
-                                              padding: const EdgeInsets.all(4),
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                horizontal: 4,
+                                                vertical: 8,
+                                              ),
                                               child: Row(
                                                 children: [
                                                   Icon(
@@ -406,7 +409,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                                                     child: Padding(
                                                       padding:
                                                           const EdgeInsets.only(
-                                                        left: 8,
+                                                        left: 16,
                                                       ),
                                                       child: Text(
                                                         productFeatures[index],
@@ -419,6 +422,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                                                                   .grey[700],
                                                               letterSpacing:
                                                                   0.25,
+                                                              height: 1.5,
                                                             ),
                                                       ),
                                                     ),

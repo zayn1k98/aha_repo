@@ -1,8 +1,8 @@
+import 'dart:developer';
+
 import 'package:aha_camping_web/constants/constants.dart';
-import 'package:aha_camping_web/custom_widgets/custom_drawer.dart';
-import 'package:aha_camping_web/theme/web_theme.dart';
+import 'package:aha_camping_web/pages/products/product_details_page.dart';
 import 'package:flutter/material.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class HomePage extends StatefulWidget {
@@ -13,113 +13,296 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List carouselImages = [
-    "assets/images/background_1.jpg",
-    "assets/images/slider_image_1.jpg",
-    "assets/images/slider_image_2.jpg",
-    "assets/images/slider_image_3.jpg",
-  ];
+  Color buttonColor = Colors.grey[200]!;
+
   @override
   Widget build(BuildContext context) {
-    var screenWidth = MediaQuery.of(context).size.width;
-
-    return Container(
-      decoration: const BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage("assets/images/home.jpg"),
-          fit: BoxFit.cover,
-        ),
-      ),
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        // appBar: AppBar(
-        //   backgroundColor: Colors.blue[900],
-        //   leading: screenWidth > 600
-        //       ? const Icon(
-        //           Icons.logo_dev_rounded,
-        //           color: Colors.white,
-        //           size: 50,
-        //         )
-        //       : null,
-        //   centerTitle: true,
-        //   title: Text(
-        //     "AHA Camping",
-        //     style: Theme.of(context).textTheme.titleLarge!.copyWith(
-        //           fontWeight: FontWeight.bold,
-        //           color: WebTheme.lightText,
-        //         ),
-        //   ),
-        //   actions: screenWidth > 600 ? navigationRoutes(context) : null,
-        // ),
-        drawer: screenWidth < 600 ? const CustomDrawer() : null,
-        // body: ListView(
-        //   physics: const BouncingScrollPhysics(),
-        //   children: [
-        //     CarouselSlider(
-        //       options: CarouselOptions(
-        //         height: MediaQuery.of(context).size.height - kToolbarHeight,
-        //         autoPlay: true,
-        //         viewportFraction: 1,
-        //       ),
-        //       items: carouselImages.map(
-        //         (i) {
-        //           return Builder(
-        //             builder: (BuildContext context) {
-        //               return Container(
-        //                 width: MediaQuery.of(context).size.width,
-        //                 decoration: BoxDecoration(
-        //                   color: Colors.grey[200],
-        //                   image: DecorationImage(
-        //                     image: AssetImage(i),
-        //                     fit: BoxFit.cover,
-        //                   ),
-        //                 ),
-        //               );
-        //             },
-        //           );
-        //         },
-        //       ).toList(),
-        //     ),
-        //   ],
-        // ),
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(50),
-              child: Text(
-                "Create your\nown camping\nstory.",
-                style: GoogleFonts.poppins(
-                  fontSize: 76,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 1,
-                ),
+    return Scaffold(
+      body: ListView(
+        children: [
+          Container(
+            height: 100,
+            color: Colors.white,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Row(
+                children: [
+                  Image.asset(
+                    "assets/logo/custom_logo.png",
+                    height: 80,
+                    width: 100,
+                  ),
+                  const Spacer(),
+                  TextButton(
+                    onPressed: () {},
+                    child: Text(
+                      "Equipments",
+                      style: GoogleFonts.poppins(
+                        color: Colors.green,
+                        letterSpacing: 0.5,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () {},
+                    child: Text(
+                      "What's new",
+                      style: GoogleFonts.poppins(
+                        color: Colors.green,
+                        letterSpacing: 0.5,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () {},
+                    child: Text(
+                      "About us",
+                      style: GoogleFonts.poppins(
+                        color: Colors.green,
+                        letterSpacing: 0.5,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.grey[200],
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(4),
+                      child: TextButton.icon(
+                        onPressed: () {},
+                        icon: const Icon(
+                          Icons.local_mall_outlined,
+                          color: Colors.green,
+                          size: 20,
+                        ),
+                        label: Text(
+                          "Cart",
+                          style: GoogleFonts.poppins(
+                            color: Colors.green,
+                            letterSpacing: 0.5,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(50),
-              child: ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.green[600],
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: Text(
-                    "Explore tools for the wilderness",
-                    style: GoogleFonts.rubik(
-                      color: Colors.white,
-                      fontSize: 24,
+          ),
+          Container(
+            height: MediaQuery.of(context).size.height * 0.7,
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/images/banner.jpg"),
+                fit: BoxFit.cover,
+              ),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(30),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "One stop shop for\nall your camping\nneeds!",
+                    style: GoogleFonts.montserrat(
+                      fontSize: 50,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
                       letterSpacing: 0.5,
                     ),
                   ),
-                ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 30),
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.green[600],
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        child: Text(
+                          "See what's new",
+                          style: GoogleFonts.montserrat(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.white,
+                            letterSpacing: 0.5,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 40, top: 40, right: 40),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "CampTools",
+                  style: GoogleFonts.montserrat(
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                    letterSpacing: 0.5,
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {},
+                  child: Text(
+                    "view all",
+                    style: GoogleFonts.poppins(
+                      color: Colors.green,
+                      letterSpacing: 0.5,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(40),
+            child: GridView.builder(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 4,
+                mainAxisExtent: 500,
+                mainAxisSpacing: 16,
+                crossAxisSpacing: 16,
+              ),
+              shrinkWrap: true,
+              itemCount: 4,
+              itemBuilder: (context, index) {
+                return Column(
+                  children: [
+                    Container(
+                      height: 300,
+                      decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        borderRadius: BorderRadius.circular(16),
+                        image: DecorationImage(
+                          image: NetworkImage(
+                            products[index]['images'][index],
+                          ),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 6),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 10,
+                        horizontal: 8,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  products[index]["title"],
+                                  style: GoogleFonts.inter(
+                                    color: Colors.black,
+                                    letterSpacing: 0.5,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20,
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 16),
+                                child: Text(
+                                  products[index]["price"],
+                                  style: GoogleFonts.inter(
+                                    color: Colors.green[600],
+                                    letterSpacing: 0.5,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 16),
+                            child: Text(
+                              products[index]["description"],
+                              style: GoogleFonts.inter(
+                                color: Colors.grey[600],
+                                letterSpacing: 0.5,
+                                fontWeight: FontWeight.normal,
+                                fontSize: 15,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          ElevatedButton(
+                            onPressed: () {
+                              Navigator.push(context,
+                                  MaterialPageRoute(builder: (context) {
+                                return const ProductDetailsPage(pageTitle: "");
+                              }));
+                            },
+                            onHover: (value) {
+                              log("Hover value : $value");
+                              setState(() {
+                                if (value == true) {
+                                  buttonColor = Colors.green[600]!;
+                                } else {
+                                  buttonColor = Colors.grey[200]!;
+                                }
+                              });
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: buttonColor,
+                              side: BorderSide(
+                                color: buttonColor == Colors.grey[200]
+                                    ? Colors.grey[700]!
+                                    : Colors.white,
+                                width: 1.5,
+                              ),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 8),
+                              child: Text(
+                                "Buy Now",
+                                style: GoogleFonts.montserrat(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500,
+                                  color: buttonColor == Colors.grey[200]
+                                      ? Colors.grey[700]
+                                      : Colors.white,
+                                  letterSpacing: 0.5,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                );
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
