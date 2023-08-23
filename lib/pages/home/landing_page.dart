@@ -106,9 +106,9 @@ class _LandingPageState extends State<LandingPage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      settings: const RouteSettings(
-                        name: "/home",
-                      ),
+                      // settings: const RouteSettings(
+                      //   name: "/home",
+                      // ),
                       builder: (context) {
                         return const HomePage();
                       },

@@ -1,8 +1,6 @@
 import 'dart:developer';
 import 'package:aha_camping_web/pages/home/home_page.dart';
 import 'package:aha_camping_web/pages/home/landing_page.dart';
-import 'package:aha_camping_web/pages/products/product_details_page.dart';
-import 'package:aha_camping_web/pages/under_construction/under_construction_page.dart';
 import 'package:aha_camping_web/theme/web_theme.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
