@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:aha_camping_web/constants/constants.dart';
 import 'package:aha_camping_web/pages/products/product_details_page.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -25,6 +26,8 @@ class _HomePageState extends State<HomePage> {
           homeBanner(),
           features(),
           campTools(),
+          testimonials(),
+          faqSection(),
           callToAction(),
           footer(),
         ],
@@ -205,10 +208,10 @@ class _HomePageState extends State<HomePage> {
               children: [
                 Row(
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.format_list_bulleted_rounded,
                     ),
-                    SizedBox(width: 16),
+                    const SizedBox(width: 16),
                     Text(
                       "Feature 1",
                       style: GoogleFonts.montserrat(
@@ -220,7 +223,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ],
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 Text(
                   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Eget nullam non nisi est. Cursus sit amet dictum sit amet justo.",
                   style: GoogleFonts.montserrat(
@@ -233,17 +236,17 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
           ),
-          SizedBox(width: 30),
+          const SizedBox(width: 30),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.format_list_bulleted_rounded,
                     ),
-                    SizedBox(width: 16),
+                    const SizedBox(width: 16),
                     Text(
                       "Feature 1",
                       style: GoogleFonts.montserrat(
@@ -255,7 +258,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ],
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 Text(
                   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Eget nullam non nisi est. Cursus sit amet dictum sit amet justo.",
                   style: GoogleFonts.montserrat(
@@ -268,17 +271,17 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
           ),
-          SizedBox(width: 30),
+          const SizedBox(width: 30),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.format_list_bulleted_rounded,
                     ),
-                    SizedBox(width: 16),
+                    const SizedBox(width: 16),
                     Text(
                       "Feature 1",
                       style: GoogleFonts.montserrat(
@@ -290,7 +293,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ],
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 Text(
                   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Eget nullam non nisi est. Cursus sit amet dictum sit amet justo.",
                   style: GoogleFonts.montserrat(
@@ -345,7 +348,7 @@ class _HomePageState extends State<HomePage> {
           child: GridView.builder(
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 4,
-              mainAxisExtent: 500,
+              mainAxisExtent: 460,
               mainAxisSpacing: 16,
               crossAxisSpacing: 16,
             ),
@@ -470,8 +473,189 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  Widget testimonials() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(left: 40),
+          child: Text(
+            "Testimonials",
+            style: GoogleFonts.montserrat(
+              fontSize: 30,
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
+              letterSpacing: 0.5,
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(bottom: 60),
+          child: Container(
+            height: 400,
+            width: double.infinity,
+            // color: Colors.grey[300],
+            child: CarouselSlider.builder(
+              itemCount: 6,
+              itemBuilder: (context, index, altIndex) {
+                return Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.grey[200],
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Eget nullam non nisi est. Cursus sit amet dictum sit amet.",
+                            style: GoogleFonts.montserrat(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.black,
+                              letterSpacing: 0.5,
+                              height: 2,
+                            ),
+                          ),
+                          const Spacer(),
+                          CircleAvatar(
+                            backgroundColor: Colors.grey[300],
+                            radius: 24,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 10),
+                            child: Text(
+                              "Hasan",
+                              style: GoogleFonts.montserrat(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                                letterSpacing: 0.5,
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 6),
+                            child: Text(
+                              "Propreitor",
+                              style: GoogleFonts.montserrat(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.grey[900],
+                                letterSpacing: 0.5,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+              },
+              options: CarouselOptions(
+                autoPlay: true,
+                enlargeCenterPage: true,
+                pageSnapping: true,
+                viewportFraction: 1 / 4,
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  bool isQuestionExpanded = false;
+
+  Widget faqSection() {
+    return Column(
+      children: [
+        Text(
+          "Another line guiding user to call to action",
+          style: GoogleFonts.montserrat(
+            fontSize: 40,
+            fontWeight: FontWeight.bold,
+            color: Colors.black,
+            letterSpacing: 0.5,
+          ),
+        ),
+        Text(
+          "Another line guiding user to call to action",
+          style: GoogleFonts.montserrat(
+            fontSize: 30,
+            color: Colors.grey[900],
+            letterSpacing: 0.5,
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(40),
+          child: ListView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: 5,
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 20),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: ExpansionPanelList(
+                    elevation: 0,
+                    children: [
+                      ExpansionPanel(
+                        isExpanded: isQuestionExpanded,
+                        canTapOnHeader: true,
+                        headerBuilder: (context, isExpanded) {
+                          return GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                isQuestionExpanded = !isQuestionExpanded;
+                              });
+                            },
+                            child: ListTile(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(16),
+                              ),
+                              title: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 10),
+                                child: Text(
+                                  "Question number 1",
+                                  style: GoogleFonts.montserrat(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.black,
+                                    letterSpacing: 0.5,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                        body: ListTile(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          title: const Text(
+                              "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Eget nullam non nisi est. Cursus sit amet dictum sit amet justo."),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+      ],
+    );
+  }
+
   Widget callToAction() {
-    return SizedBox(
+    return Container(
+      color: Colors.grey[200],
       height: 500,
       child: Padding(
         padding: const EdgeInsets.all(40),
