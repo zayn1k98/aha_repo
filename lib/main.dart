@@ -1,6 +1,9 @@
 import 'dart:developer';
+import 'package:aha_camping_web/pages/aha_bbq/aha_bbq.dart';
 import 'package:aha_camping_web/pages/home/home_page.dart';
 import 'package:aha_camping_web/pages/home/landing_page.dart';
+import 'package:aha_camping_web/pages/products/all_products.dart';
+import 'package:aha_camping_web/pages/products/product_details_page.dart';
 import 'package:aha_camping_web/theme/web_theme.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -24,11 +27,14 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'AHA Camping',
       theme: WebTheme.webTheme,
-      // home: const UnderConstructionPage(),
-      // home: const ProductDetailsPage(
-      //   pageTitle: "Foldable Barbeque Stand",
-      // ),
-      home: const HomePage(),
+      routes: {
+        LandingPage.route: (context) => const LandingPage(),
+        HomePage.route: (context) => const HomePage(),
+        AllProductsPage.route: (context) => const AllProductsPage(),
+        ProductDetailsPage.route: (context) => const ProductDetailsPage(),
+        AhaBbqPage.route: (context) => const AhaBbqPage(),
+      },
+      // home: const AhaBbqPage(),
     );
   }
 }

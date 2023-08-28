@@ -1,6 +1,8 @@
-import 'dart:developer';
-
+import 'package:aha_camping_web/api/api_functions.dart';
 import 'package:aha_camping_web/constants/constants.dart';
+import 'package:aha_camping_web/models/faq_model/faq_model.dart';
+import 'package:aha_camping_web/pages/aha_bbq/aha_bbq.dart';
+import 'package:aha_camping_web/pages/products/all_products.dart';
 import 'package:aha_camping_web/pages/products/product_details_page.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -9,13 +11,39 @@ import 'package:google_fonts/google_fonts.dart';
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
+  static const String route = '/';
+
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  Color buttonColor = Colors.grey[200]!;
   Color cartButtonColor = Colors.grey[200]!;
+
+  List<FAQModel> faq = [];
+
+  bool isLoading = false;
+
+  void getFAQ() async {
+    setState(() {
+      isLoading = true;
+    });
+    faq = await APIFunctions().getFAQs();
+
+    setState(() {
+      isLoading = false;
+    });
+  }
+
+  void callAPIs() {
+    getFAQ();
+  }
+
+  @override
+  void initState() {
+    // callAPIs();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,9 +78,11 @@ class _HomePageState extends State<HomePage> {
             ),
             const Spacer(),
             TextButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushNamed(context, AhaBbqPage.route);
+              },
               child: Text(
-                "Equipments",
+                "AHA BBQ",
                 style: GoogleFonts.poppins(
                   color: Colors.green,
                   letterSpacing: 0.5,
@@ -62,9 +92,11 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             TextButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushNamed(context, AllProductsPage.route);
+              },
               child: Text(
-                "What's new",
+                "All Products",
                 style: GoogleFonts.poppins(
                   color: Colors.green,
                   letterSpacing: 0.5,
@@ -311,6 +343,24 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  List buttonHoverValues = [
+    {
+      "color": Colors.grey[200],
+      "value": false,
+    },
+    {
+      "color": Colors.grey[200],
+      "value": false,
+    },
+    {
+      "color": Colors.grey[200],
+      "value": false,
+    },
+    {
+      "color": Colors.grey[200],
+      "value": false,
+    },
+  ];
   Widget campTools() {
     return Column(
       children: [
@@ -329,7 +379,9 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushNamed(context, AllProductsPage.route);
+                },
                 child: Text(
                   "view all",
                   style: GoogleFonts.poppins(
@@ -346,14 +398,14 @@ class _HomePageState extends State<HomePage> {
         Padding(
           padding: const EdgeInsets.all(40),
           child: GridView.builder(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 4,
-              mainAxisExtent: 460,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: buttonHoverValues.length,
+              mainAxisExtent: 500,
               mainAxisSpacing: 16,
               crossAxisSpacing: 16,
             ),
             shrinkWrap: true,
-            itemCount: 4,
+            itemCount: buttonHoverValues.length,
             itemBuilder: (context, index) {
               return Column(
                 children: [
@@ -415,32 +467,36 @@ class _HomePageState extends State<HomePage> {
                               color: Colors.grey[600],
                               letterSpacing: 0.5,
                               fontWeight: FontWeight.normal,
-                              fontSize: 15,
+                              fontSize: 12,
                             ),
+                            maxLines: 3,
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
                         ElevatedButton(
                           onPressed: () {
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) {
-                              return const ProductDetailsPage(pageTitle: "");
-                            }));
+                            Navigator.pushNamed(
+                              context,
+                              ProductDetailsPage.route,
+                            );
                           },
                           onHover: (value) {
-                            log("Hover value : $value");
                             setState(() {
-                              if (value == true) {
-                                buttonColor = Colors.green[600]!;
+                              buttonHoverValues[index]['value'] = value;
+                              if (buttonHoverValues[index]['value'] == true) {
+                                buttonHoverValues[index]['color'] =
+                                    Colors.green[600]!;
                               } else {
-                                buttonColor = Colors.grey[200]!;
+                                buttonHoverValues[index]['color'] =
+                                    Colors.grey[200]!;
                               }
                             });
                           },
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: buttonColor,
+                            backgroundColor: buttonHoverValues[index]['color'],
                             side: BorderSide(
-                              color: buttonColor == Colors.grey[200]
+                              color: buttonHoverValues[index]['color'] ==
+                                      Colors.grey[200]
                                   ? Colors.grey[700]!
                                   : Colors.white,
                               width: 1.5,
@@ -453,7 +509,8 @@ class _HomePageState extends State<HomePage> {
                               style: GoogleFonts.montserrat(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500,
-                                color: buttonColor == Colors.grey[200]
+                                color: buttonHoverValues[index]['color'] ==
+                                        Colors.grey[200]
                                     ? Colors.grey[700]
                                     : Colors.white,
                                 letterSpacing: 0.5,
@@ -491,10 +548,10 @@ class _HomePageState extends State<HomePage> {
         ),
         Padding(
           padding: const EdgeInsets.only(bottom: 60),
-          child: Container(
+          child: SizedBox(
             height: 400,
             width: double.infinity,
-            // color: Colors.grey[300],
+            // color: Colors.grey[100],
             child: CarouselSlider.builder(
               itemCount: 6,
               itemBuilder: (context, index, altIndex) {
@@ -574,7 +631,7 @@ class _HomePageState extends State<HomePage> {
     return Column(
       children: [
         Text(
-          "Another line guiding user to call to action",
+          "Answers at a Glance",
           style: GoogleFonts.montserrat(
             fontSize: 40,
             fontWeight: FontWeight.bold,
@@ -582,73 +639,77 @@ class _HomePageState extends State<HomePage> {
             letterSpacing: 0.5,
           ),
         ),
-        Text(
-          "Another line guiding user to call to action",
-          style: GoogleFonts.montserrat(
-            fontSize: 30,
-            color: Colors.grey[900],
-            letterSpacing: 0.5,
+        Padding(
+          padding: const EdgeInsets.only(top: 20),
+          child: Text(
+            "Frequently Asked Questions",
+            style: GoogleFonts.montserrat(
+              fontSize: 20,
+              color: Colors.grey[900],
+              letterSpacing: 0.5,
+            ),
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.all(40),
-          child: ListView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: 5,
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.only(bottom: 20),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: ExpansionPanelList(
-                    elevation: 0,
-                    children: [
-                      ExpansionPanel(
-                        isExpanded: isQuestionExpanded,
-                        canTapOnHeader: true,
-                        headerBuilder: (context, isExpanded) {
-                          return GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                isQuestionExpanded = !isQuestionExpanded;
-                              });
-                            },
-                            child: ListTile(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(16),
-                              ),
-                              title: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 10),
-                                child: Text(
-                                  "Question number 1",
-                                  style: GoogleFonts.montserrat(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.black,
-                                    letterSpacing: 0.5,
+        isLoading
+            ? const CircularProgressIndicator()
+            : Padding(
+                padding: const EdgeInsets.all(40),
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: faq.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 20),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: ExpansionPanelList(
+                          elevation: 0,
+                          children: [
+                            ExpansionPanel(
+                              isExpanded: isQuestionExpanded,
+                              canTapOnHeader: true,
+                              headerBuilder: (context, isExpanded) {
+                                return GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      isQuestionExpanded = !isQuestionExpanded;
+                                    });
+                                  },
+                                  child: ListTile(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(16),
+                                    ),
+                                    title: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 10),
+                                      child: Text(
+                                        faq[index].question,
+                                        style: GoogleFonts.montserrat(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.black,
+                                          letterSpacing: 0.5,
+                                        ),
+                                      ),
+                                    ),
                                   ),
+                                );
+                              },
+                              body: ListTile(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16),
                                 ),
+                                title: Text(faq[index].answer),
                               ),
                             ),
-                          );
-                        },
-                        body: ListTile(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                          title: const Text(
-                              "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Eget nullam non nisi est. Cursus sit amet dictum sit amet justo."),
+                          ],
                         ),
                       ),
-                    ],
-                  ),
+                    );
+                  },
                 ),
-              );
-            },
-          ),
-        ),
+              ),
       ],
     );
   }
@@ -704,105 +765,103 @@ class _HomePageState extends State<HomePage> {
       color: Colors.grey[300],
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 40),
-        child: Expanded(
-          child: Column(
-            children: [
-              const SizedBox(height: 30),
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      "AHA Camping",
-                      style: GoogleFonts.montserrat(
-                        fontSize: 22,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.black,
-                        letterSpacing: 0.5,
-                      ),
+        child: Column(
+          children: [
+            const SizedBox(height: 30),
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    "AHA Camping",
+                    style: GoogleFonts.montserrat(
+                      fontSize: 22,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.black,
+                      letterSpacing: 0.5,
                     ),
                   ),
-                  const SizedBox(width: 40),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      TextButton(
-                        onPressed: () {},
-                        child: Text(
-                          "About us",
-                          style: GoogleFonts.poppins(
-                            color: Colors.green,
-                            letterSpacing: 0.5,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 14,
-                          ),
-                        ),
-                      ),
-                      TextButton(
-                        onPressed: () {},
-                        child: Text(
-                          "Privacy Policy",
-                          style: GoogleFonts.poppins(
-                            color: Colors.green,
-                            letterSpacing: 0.5,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 14,
-                          ),
-                        ),
-                      ),
-                      TextButton(
-                        onPressed: () {},
-                        child: Text(
-                          "Terms & Conditions",
-                          style: GoogleFonts.poppins(
-                            color: Colors.green,
-                            letterSpacing: 0.5,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 14,
-                          ),
-                        ),
-                      ),
-                      TextButton(
-                        onPressed: () {},
-                        child: Text(
-                          "Contact us",
-                          style: GoogleFonts.poppins(
-                            color: Colors.green,
-                            letterSpacing: 0.5,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 14,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                child: Row(
+                ),
+                const SizedBox(width: 40),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(
-                      Icons.copyright,
-                      color: Colors.grey[850],
-                      size: 20,
+                    TextButton(
+                      onPressed: () {},
+                      child: Text(
+                        "About us",
+                        style: GoogleFonts.poppins(
+                          color: Colors.green,
+                          letterSpacing: 0.5,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 14,
+                        ),
+                      ),
                     ),
-                    const SizedBox(width: 8),
-                    Text(
-                      "Designed and developed by Syed Abdur Rahman",
-                      style: GoogleFonts.montserrat(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.grey[850],
-                        letterSpacing: 0.5,
+                    TextButton(
+                      onPressed: () {},
+                      child: Text(
+                        "Privacy Policy",
+                        style: GoogleFonts.poppins(
+                          color: Colors.green,
+                          letterSpacing: 0.5,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () {},
+                      child: Text(
+                        "Terms & Conditions",
+                        style: GoogleFonts.poppins(
+                          color: Colors.green,
+                          letterSpacing: 0.5,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () {},
+                      child: Text(
+                        "Contact us",
+                        style: GoogleFonts.poppins(
+                          color: Colors.green,
+                          letterSpacing: 0.5,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 14,
+                        ),
                       ),
                     ),
                   ],
                 ),
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.copyright,
+                    color: Colors.grey[850],
+                    size: 20,
+                  ),
+                  const SizedBox(width: 8),
+                  Text(
+                    "Designed and developed by Syed Abdur Rahman",
+                    style: GoogleFonts.montserrat(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.grey[850],
+                      letterSpacing: 0.5,
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

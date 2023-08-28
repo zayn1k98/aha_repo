@@ -1,13 +1,12 @@
-import 'package:aha_camping_web/constants/constants.dart';
 import 'package:aha_camping_web/custom_widgets/custom_drawer.dart';
 import 'package:aha_camping_web/pages/home/home_page.dart';
-import 'package:aha_camping_web/theme/web_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class LandingPage extends StatefulWidget {
   const LandingPage({super.key});
+
+  static const String route = '/splash';
 
   @override
   State<LandingPage> createState() => _LandingPageState();

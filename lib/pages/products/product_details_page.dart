@@ -1,11 +1,12 @@
-import 'package:aha_camping_web/pages/home/landing_page.dart';
 import 'package:aha_camping_web/responsive_layout/responsive_layout.dart';
 import 'package:aha_camping_web/theme/web_theme.dart';
 import 'package:flutter/material.dart';
 
 class ProductDetailsPage extends StatefulWidget {
-  final String pageTitle;
-  const ProductDetailsPage({super.key, required this.pageTitle});
+  final String? pageTitle;
+  const ProductDetailsPage({super.key, this.pageTitle});
+
+  static String route = '/product';
 
   @override
   State<ProductDetailsPage> createState() => _ProductDetailsPageState();
@@ -28,7 +29,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
           color: Colors.white,
         ),
         title: Text(
-          widget.pageTitle,
+          widget.pageTitle ?? "",
           style: Theme.of(context).textTheme.titleLarge!.copyWith(
                 fontWeight: FontWeight.bold,
                 color: WebTheme.lightText,
@@ -333,11 +334,72 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                                             const EdgeInsets.only(left: 20),
                                         child: ElevatedButton(
                                           onPressed: () {
-                                            // Navigator.push(context,
-                                            //     MaterialPageRoute(
-                                            //         builder: (context) {
-                                            //   return const LandingPage();
-                                            // }));
+                                            showDialog(
+                                              context: context,
+                                              builder: (context) {
+                                                return AlertDialog(
+                                                  surfaceTintColor:
+                                                      Colors.transparent,
+                                                  backgroundColor:
+                                                      Colors.grey[200],
+                                                  title: Padding(
+                                                    padding: const EdgeInsets
+                                                        .symmetric(
+                                                      vertical: 30,
+                                                    ),
+                                                    child: Text(
+                                                      "Please contact the following number to place an order : +91-9876543210",
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .bodyLarge!
+                                                          .copyWith(
+                                                            fontSize: 20,
+                                                            color: Colors
+                                                                .grey[800],
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            letterSpacing: 0.25,
+                                                          ),
+                                                    ),
+                                                  ),
+                                                  actions: [
+                                                    ElevatedButton(
+                                                      onPressed: () {
+                                                        Navigator.pop(context);
+                                                      },
+                                                      style: ElevatedButton
+                                                          .styleFrom(
+                                                        backgroundColor:
+                                                            Colors.green[600],
+                                                      ),
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(16),
+                                                        child: Text(
+                                                          "Close",
+                                                          style:
+                                                              Theme.of(context)
+                                                                  .textTheme
+                                                                  .bodyLarge!
+                                                                  .copyWith(
+                                                                    fontSize:
+                                                                        20,
+                                                                    color: Colors
+                                                                        .white,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                    letterSpacing:
+                                                                        0.25,
+                                                                  ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                );
+                                              },
+                                            );
                                           },
                                           style: ElevatedButton.styleFrom(
                                             backgroundColor: Colors.green[600],
