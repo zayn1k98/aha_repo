@@ -1,6 +1,7 @@
 import 'package:aha_camping_web/api/api_functions.dart';
 import 'package:aha_camping_web/constants/constants.dart';
 import 'package:aha_camping_web/models/faq_model/faq_model.dart';
+import 'package:aha_camping_web/pages/about_us/about_us_page.dart';
 import 'package:aha_camping_web/pages/aha_bbq/aha_bbq.dart';
 import 'package:aha_camping_web/pages/products/all_products.dart';
 import 'package:aha_camping_web/pages/products/product_details_page.dart';
@@ -106,9 +107,11 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             TextButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushNamed(context, AboutUsPage.route);
+              },
               child: Text(
-                "About us",
+                "Our Story",
                 style: GoogleFonts.poppins(
                   color: Colors.green,
                   letterSpacing: 0.5,

@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:aha_camping_web/pages/about_us/about_us_page.dart';
 import 'package:aha_camping_web/pages/aha_bbq/aha_bbq.dart';
 import 'package:aha_camping_web/pages/home/home_page.dart';
 import 'package:aha_camping_web/pages/home/landing_page.dart';
@@ -30,6 +31,7 @@ class MyApp extends StatelessWidget {
       routes: {
         LandingPage.route: (context) => const LandingPage(),
         HomePage.route: (context) => const HomePage(),
+        AboutUsPage.route: (context) => const AboutUsPage(),
         AllProductsPage.route: (context) => const AllProductsPage(),
         ProductDetailsPage.route: (context) => const ProductDetailsPage(),
         AhaBbqPage.route: (context) => const AhaBbqPage(),
