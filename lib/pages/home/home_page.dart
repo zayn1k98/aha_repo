@@ -208,7 +208,9 @@ class _HomePageState extends State<HomePage> {
             Padding(
               padding: const EdgeInsets.only(bottom: 30),
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushNamed(context, AllProductsPage.route);
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.green[600],
                 ),
@@ -383,7 +385,7 @@ class _HomePageState extends State<HomePage> {
               ),
               TextButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, AllProductsPage.route);
+                  Navigator.pushNamed(context, AhaBbqPage.route);
                 },
                 child: Text(
                   "view all",
