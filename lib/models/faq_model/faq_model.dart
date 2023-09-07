@@ -37,7 +37,7 @@ class FAQModel {
         id: json["_id"],
         question: json["question"],
         answer: json["answer"],
-        isExpanded: json["isExpanded"],
+        isExpanded: false,
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
         v: json["__v"],

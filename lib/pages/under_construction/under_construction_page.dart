@@ -39,6 +39,19 @@ class UnderConstructionPage extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
             ),
+            Padding(
+              padding: const EdgeInsets.only(top: 50),
+              child: Center(
+                child: Text(
+                  "For enquiries, please contact:\n\n+91-7204556760\n or\n+91-7259837791",
+                  style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                        color: WebTheme.lightText,
+                        fontWeight: FontWeight.w900,
+                      ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ),
           ],
         ),
       ),
