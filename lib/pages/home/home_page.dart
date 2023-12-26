@@ -1,10 +1,9 @@
-import 'package:aha_camping_web/api/api_functions.dart';
-import 'package:aha_camping_web/constants/constants.dart';
 import 'package:aha_camping_web/models/faq_model/faq_model.dart';
 import 'package:aha_camping_web/pages/about_us/about_us_page.dart';
 import 'package:aha_camping_web/pages/aha_bbq/aha_bbq.dart';
 import 'package:aha_camping_web/pages/products/all_products.dart';
 import 'package:aha_camping_web/pages/products/product_details_page.dart';
+import 'package:aha_camping_web/services/product_services.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -25,25 +24,28 @@ class _HomePageState extends State<HomePage> {
 
   bool isLoading = false;
 
-  void getFAQ() async {
-    setState(() {
-      isLoading = true;
-    });
-    faq = await APIFunctions().getFAQs();
+  List allProducts = [];
 
-    setState(() {
-      isLoading = false;
-    });
-  }
+  void getAllProducts() async {
+    allProducts = await ProductServices().getAllProducts();
 
-  void callAPIs() {
-    getFAQ();
+    // ignore: unused_local_variable
+    for (var ele in allProducts) {
+      buttonHoverValues.add(
+        {
+          "color": Colors.grey[200],
+          "value": false,
+        },
+      );
+    }
+    setState(() {});
   }
 
   @override
   void initState() {
-    // callAPIs();
     super.initState();
+
+    getAllProducts();
   }
 
   @override
@@ -78,23 +80,29 @@ class _HomePageState extends State<HomePage> {
               width: 100,
             ),
             const Spacer(),
+            // TextButton(
+            //   onPressed: () {
+            //     Navigator.pushNamed(context, AhaBbqPage.route);
+            //   },
+            //   child: Text(
+            //     "AHA BBQ",
+            //     style: GoogleFonts.poppins(
+            //       color: Colors.green,
+            //       letterSpacing: 0.5,
+            //       fontWeight: FontWeight.bold,
+            //       fontSize: 16,
+            //     ),
+            //   ),
+            // ),
             TextButton(
               onPressed: () {
-                Navigator.pushNamed(context, AhaBbqPage.route);
-              },
-              child: Text(
-                "AHA BBQ",
-                style: GoogleFonts.poppins(
-                  color: Colors.green,
-                  letterSpacing: 0.5,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                ),
-              ),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.pushNamed(context, AllProductsPage.route);
+                Navigator.pushNamed(
+                  context,
+                  AllProductsPage.route,
+                  arguments: AllProductsArguments(
+                    products: allProducts,
+                  ),
+                );
               },
               child: Text(
                 "All Products",
@@ -120,45 +128,45 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ),
-            Container(
-              decoration: BoxDecoration(
-                color: cartButtonColor,
-                borderRadius: BorderRadius.circular(30),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(4),
-                child: TextButton.icon(
-                  onHover: (value) {
-                    setState(() {
-                      if (value == true) {
-                        cartButtonColor = Colors.green;
-                      } else {
-                        cartButtonColor = Colors.grey[200]!;
-                      }
-                    });
-                  },
-                  onPressed: () {},
-                  icon: Icon(
-                    Icons.local_mall_outlined,
-                    color: cartButtonColor == Colors.green
-                        ? Colors.white
-                        : Colors.green,
-                    size: 20,
-                  ),
-                  label: Text(
-                    "Cart",
-                    style: GoogleFonts.poppins(
-                      color: cartButtonColor == Colors.green
-                          ? Colors.white
-                          : Colors.green,
-                      letterSpacing: 0.5,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                    ),
-                  ),
-                ),
-              ),
-            ),
+            // Container(
+            //   decoration: BoxDecoration(
+            //     color: cartButtonColor,
+            //     borderRadius: BorderRadius.circular(30),
+            //   ),
+            //   child: Padding(
+            //     padding: const EdgeInsets.all(4),
+            //     child: TextButton.icon(
+            //       onHover: (value) {
+            //         setState(() {
+            //           if (value == true) {
+            //             cartButtonColor = Colors.green;
+            //           } else {
+            //             cartButtonColor = Colors.grey[200]!;
+            //           }
+            //         });
+            //       },
+            //       onPressed: () {},
+            //       icon: Icon(
+            //         Icons.local_mall_outlined,
+            //         color: cartButtonColor == Colors.green
+            //             ? Colors.white
+            //             : Colors.green,
+            //         size: 20,
+            //       ),
+            //       label: Text(
+            //         "Cart",
+            //         style: GoogleFonts.poppins(
+            //           color: cartButtonColor == Colors.green
+            //               ? Colors.white
+            //               : Colors.green,
+            //           letterSpacing: 0.5,
+            //           fontWeight: FontWeight.bold,
+            //           fontSize: 16,
+            //         ),
+            //       ),
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),
@@ -167,10 +175,10 @@ class _HomePageState extends State<HomePage> {
 
   Widget homeBanner() {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.7,
+      height: MediaQuery.of(context).size.height * 0.75,
       decoration: const BoxDecoration(
         image: DecorationImage(
-          image: AssetImage("assets/images/banner.jpg"),
+          image: AssetImage("assets/images/home.jpg"),
           fit: BoxFit.fitWidth,
         ),
       ),
@@ -181,30 +189,31 @@ class _HomePageState extends State<HomePage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
-              width: (MediaQuery.of(context).size.width / 3),
+              width: (MediaQuery.of(context).size.width / 2.5),
               child: Text(
-                "One stop shop for all your camping needs!",
+                "At AHA BBQ, we’re your go-to  source for the ultimate BBQ experience. We specialize in manufacturing and selling high quality BBQ grills and stands that are perfect for indoor as well as outdoor adventures. But we are not just about grills, we are about creating unforgettable moments around the fire.",
                 style: GoogleFonts.montserrat(
-                  fontSize: 50,
+                  fontSize: 22,
                   fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                  letterSpacing: 0.5,
-                ),
-              ),
-            ),
-            SizedBox(
-              width: (MediaQuery.of(context).size.width / 3) - 50,
-              child: Text(
-                "Find all your camping related equipment all in one place without compromising on quality and getting a bang for your buck at the same time.",
-                style: GoogleFonts.montserrat(
-                  fontSize: 16,
-                  color: Colors.grey[900],
-                  fontWeight: FontWeight.w600,
+                  color: Colors.white,
                   letterSpacing: 0.5,
                   height: 1.5,
                 ),
               ),
             ),
+            // SizedBox(
+            //   width: (MediaQuery.of(context).size.width / 3) - 50,
+            //   child: Text(
+            //     "sub-text",
+            //     style: GoogleFonts.montserrat(
+            //       fontSize: 16,
+            //       color: Colors.grey[900],
+            //       fontWeight: FontWeight.w600,
+            //       letterSpacing: 0.5,
+            //       height: 1.5,
+            //     ),
+            //   ),
+            // ),
             Padding(
               padding: const EdgeInsets.only(bottom: 30),
               child: ElevatedButton(
@@ -348,24 +357,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  List buttonHoverValues = [
-    {
-      "color": Colors.grey[200],
-      "value": false,
-    },
-    {
-      "color": Colors.grey[200],
-      "value": false,
-    },
-    {
-      "color": Colors.grey[200],
-      "value": false,
-    },
-    {
-      "color": Colors.grey[200],
-      "value": false,
-    },
-  ];
+  List buttonHoverValues = [];
   Widget campTools() {
     return Column(
       children: [
@@ -375,7 +367,7 @@ class _HomePageState extends State<HomePage> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "CampTools",
+                "Our Products",
                 style: GoogleFonts.montserrat(
                   fontSize: 30,
                   fontWeight: FontWeight.bold,
@@ -401,134 +393,155 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.all(40),
-          child: GridView.builder(
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: buttonHoverValues.length,
-              mainAxisExtent: 500,
-              mainAxisSpacing: 16,
-              crossAxisSpacing: 16,
-            ),
-            shrinkWrap: true,
-            itemCount: buttonHoverValues.length,
-            itemBuilder: (context, index) {
-              return Column(
-                children: [
-                  Container(
-                    height: 300,
-                    decoration: BoxDecoration(
-                      color: Colors.grey[200],
-                      borderRadius: BorderRadius.circular(16),
-                      image: DecorationImage(
-                        image: NetworkImage(
-                          products[index]['images'][index],
-                        ),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 6),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 10,
-                      horizontal: 8,
-                    ),
+          padding: const EdgeInsets.symmetric(vertical: 40),
+          child: SizedBox(
+            height: MediaQuery.of(context).size.height * 0.85,
+            child: ListView.builder(
+              // gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              //   crossAxisCount: buttonHoverValues.length,
+              //   mainAxisExtent: 500,
+              //   mainAxisSpacing: 16,
+              //   crossAxisSpacing: 16,
+              // ),
+              scrollDirection: Axis.horizontal,
+              shrinkWrap: true,
+              itemCount: allProducts.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: SizedBox(
+                    width: 300,
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Expanded(
-                              child: Text(
-                                products[index]["title"],
-                                style: GoogleFonts.inter(
-                                  color: Colors.black,
-                                  letterSpacing: 0.5,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 20,
-                                ),
+                        Container(
+                          height: 300,
+                          decoration: BoxDecoration(
+                            color: Colors.grey[200],
+                            borderRadius: BorderRadius.circular(16),
+                            image: DecorationImage(
+                              image: NetworkImage(
+                                allProducts[index]['images'][index],
                               ),
+                              fit: BoxFit.cover,
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 16),
-                              child: Text(
-                                products[index]["price"],
-                                style: GoogleFonts.inter(
-                                  color: Colors.green[600],
-                                  letterSpacing: 0.5,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 20,
-                                ),
-                              ),
-                            ),
-                          ],
+                          ),
                         ),
+                        const SizedBox(height: 6),
                         Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 16),
-                          child: Text(
-                            products[index]["description"],
-                            style: GoogleFonts.inter(
-                              color: Colors.grey[600],
-                              letterSpacing: 0.5,
-                              fontWeight: FontWeight.normal,
-                              fontSize: 12,
-                            ),
-                            maxLines: 3,
-                            overflow: TextOverflow.ellipsis,
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 10,
+                            horizontal: 8,
                           ),
-                        ),
-                        ElevatedButton(
-                          onPressed: () {
-                            Navigator.pushNamed(
-                              context,
-                              ProductDetailsPage.route,
-                            );
-                          },
-                          onHover: (value) {
-                            setState(() {
-                              buttonHoverValues[index]['value'] = value;
-                              if (buttonHoverValues[index]['value'] == true) {
-                                buttonHoverValues[index]['color'] =
-                                    Colors.green[600]!;
-                              } else {
-                                buttonHoverValues[index]['color'] =
-                                    Colors.grey[200]!;
-                              }
-                            });
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: buttonHoverValues[index]['color'],
-                            side: BorderSide(
-                              color: buttonHoverValues[index]['color'] ==
-                                      Colors.grey[200]
-                                  ? Colors.grey[700]!
-                                  : Colors.white,
-                              width: 1.5,
-                            ),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 8),
-                            child: Text(
-                              "Buy Now",
-                              style: GoogleFonts.montserrat(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
-                                color: buttonHoverValues[index]['color'] ==
-                                        Colors.grey[200]
-                                    ? Colors.grey[700]
-                                    : Colors.white,
-                                letterSpacing: 0.5,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      allProducts[index]["title"],
+                                      style: GoogleFonts.inter(
+                                        color: Colors.black,
+                                        letterSpacing: 0.5,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 16),
+                                    child: Text(
+                                      "₹ ${allProducts[index]["price"]}",
+                                      style: GoogleFonts.inter(
+                                        color: Colors.green[600],
+                                        letterSpacing: 0.5,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 16),
+                                child: Text(
+                                  allProducts[index]["description"],
+                                  style: GoogleFonts.inter(
+                                    color: Colors.grey[600],
+                                    letterSpacing: 0.5,
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: 12,
+                                  ),
+                                  maxLines: 3,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                              ElevatedButton(
+                                onPressed: () {
+                                  Navigator.pushNamed(
+                                    context,
+                                    ProductDetailsPage.route,
+                                    arguments: PageArguments(
+                                      productId: allProducts[index]
+                                          ['document_id'],
+                                    ),
+                                  );
+                                },
+                                onHover: (value) {
+                                  setState(() {
+                                    buttonHoverValues[index]['value'] = value;
+                                    if (buttonHoverValues[index]['value'] ==
+                                        true) {
+                                      buttonHoverValues[index]['color'] =
+                                          Colors.green[600]!;
+                                    } else {
+                                      buttonHoverValues[index]['color'] =
+                                          Colors.grey[200]!;
+                                    }
+                                  });
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: buttonHoverValues[index]
+                                      ['color'],
+                                  side: BorderSide(
+                                    color: buttonHoverValues[index]['color'] ==
+                                            Colors.grey[200]
+                                        ? Colors.grey[700]!
+                                        : Colors.white,
+                                    width: 1.5,
+                                  ),
+                                ),
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 8),
+                                  child: Text(
+                                    "Buy Now",
+                                    style: GoogleFonts.montserrat(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500,
+                                      color: buttonHoverValues[index]
+                                                  ['color'] ==
+                                              Colors.grey[200]
+                                          ? Colors.grey[700]
+                                          : Colors.white,
+                                      letterSpacing: 0.5,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ],
                     ),
                   ),
-                ],
-              );
-            },
+                );
+              },
+            ),
           ),
         ),
       ],

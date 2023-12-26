@@ -1,7 +1,14 @@
-import 'package:aha_camping_web/constants/constants.dart';
 import 'package:aha_camping_web/pages/products/product_details_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+class AllProductsArguments {
+  final List products;
+
+  AllProductsArguments({
+    required this.products,
+  });
+}
 
 class AllProductsPage extends StatefulWidget {
   const AllProductsPage({super.key});
@@ -13,36 +20,37 @@ class AllProductsPage extends StatefulWidget {
 }
 
 class _AllProductsPageState extends State<AllProductsPage> {
-  List buttonHoverValues = [
-    {
-      "color": Colors.grey[200],
-      "value": false,
-    },
-    {
-      "color": Colors.grey[200],
-      "value": false,
-    },
-    {
-      "color": Colors.grey[200],
-      "value": false,
-    },
-    {
-      "color": Colors.grey[200],
-      "value": false,
-    },
-    {
-      "color": Colors.grey[200],
-      "value": false,
-    },
-    {
-      "color": Colors.grey[200],
-      "value": false,
-    },
-    {
-      "color": Colors.grey[200],
-      "value": false,
-    },
-  ];
+  List allProducts = [];
+  List buttonHoverValues = [];
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    final products = ModalRoute.of(context)!.settings.arguments == null
+        ? AllProductsArguments(
+            products: [],
+          )
+        : ModalRoute.of(context)!.settings.arguments as AllProductsArguments;
+
+    allProducts = products.products;
+
+    // ignore: unused_local_variable
+    for (var ele in allProducts) {
+      buttonHoverValues.add(
+        {
+          "color": Colors.grey[200],
+          "value": false,
+        },
+      );
+    }
+
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -87,16 +95,17 @@ class _AllProductsPageState extends State<AllProductsPage> {
             Padding(
               padding: const EdgeInsets.all(40),
               child: GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 5,
-                  mainAxisExtent: 500,
-                  mainAxisSpacing: 16,
-                  crossAxisSpacing: 16,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 4,
+                  mainAxisExtent: MediaQuery.of(context).size.height * 0.8,
+                  mainAxisSpacing: 20,
+                  crossAxisSpacing: 20,
                 ),
                 shrinkWrap: true,
-                itemCount: buttonHoverValues.length,
+                itemCount: allProducts.length,
                 itemBuilder: (context, index) {
                   return Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Container(
                         height: 300,
@@ -105,7 +114,7 @@ class _AllProductsPageState extends State<AllProductsPage> {
                           borderRadius: BorderRadius.circular(16),
                           image: DecorationImage(
                             image: NetworkImage(
-                              products[index]['images'][index],
+                              allProducts[index]['images'][index],
                             ),
                             fit: BoxFit.cover,
                           ),
@@ -125,7 +134,7 @@ class _AllProductsPageState extends State<AllProductsPage> {
                               children: [
                                 Expanded(
                                   child: Text(
-                                    products[index]["title"],
+                                    allProducts[index]["title"],
                                     style: GoogleFonts.inter(
                                       color: Colors.black,
                                       letterSpacing: 0.5,
@@ -137,7 +146,7 @@ class _AllProductsPageState extends State<AllProductsPage> {
                                 Padding(
                                   padding: const EdgeInsets.only(left: 16),
                                   child: Text(
-                                    products[index]["price"],
+                                    "₹ ${allProducts[index]["price"]}",
                                     style: GoogleFonts.inter(
                                       color: Colors.green[600],
                                       letterSpacing: 0.5,
@@ -151,7 +160,7 @@ class _AllProductsPageState extends State<AllProductsPage> {
                             Padding(
                               padding: const EdgeInsets.symmetric(vertical: 16),
                               child: Text(
-                                products[index]["description"],
+                                allProducts[index]["description"],
                                 style: GoogleFonts.inter(
                                   color: Colors.grey[600],
                                   letterSpacing: 0.5,
@@ -167,6 +176,10 @@ class _AllProductsPageState extends State<AllProductsPage> {
                                 Navigator.pushNamed(
                                   context,
                                   ProductDetailsPage.route,
+                                  arguments: PageArguments(
+                                    productId: allProducts[index]
+                                        ['document_id'],
+                                  ),
                                 );
                               },
                               onHover: (value) {

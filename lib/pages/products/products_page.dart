@@ -32,8 +32,6 @@ class ProductsPage extends StatelessWidget {
   }
 
   Widget mobileBody(double width) {
-    String productName = "Foldable Barbeque Stand";
-
     return Padding(
       padding: const EdgeInsets.all(10),
       child: ListView.builder(
@@ -46,9 +44,7 @@ class ProductsPage extends StatelessWidget {
             child: InkWell(
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return ProductDetailsPage(
-                    pageTitle: productName,
-                  );
+                  return const ProductDetailsPage();
                 }));
               },
               borderRadius: BorderRadius.circular(14),
@@ -71,14 +67,6 @@ class ProductsPage extends StatelessWidget {
                             fontWeight: FontWeight.bold,
                           ),
                     ),
-                    // const SizedBox(height: 10),
-                    // Text(
-                    //   "Portable and high quality foldable barbeque stand made from 304 grade Stainless Steel and weighs in at around 4kgs only which makes it extremely sturdy and built to withstand even the cruelest grilling conditions. Designed with convinience in mind such as being easy to assemble, disassemble and simple to clean.",
-                    //   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                    //         fontWeight: FontWeight.bold,
-                    //         color: WebTheme.darkText,
-                    //       ),
-                    // ),
                     const SizedBox(height: 16),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -125,8 +113,6 @@ class ProductsPage extends StatelessWidget {
   }
 
   Widget desktopBody(double width) {
-    String productName = "Foldable Barbeque Stand";
-
     return Padding(
       padding: const EdgeInsets.all(10),
       child: GridView.builder(
@@ -145,9 +131,7 @@ class ProductsPage extends StatelessWidget {
             child: InkWell(
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return ProductDetailsPage(
-                    pageTitle: productName,
-                  );
+                  return const ProductDetailsPage();
                 }));
               },
               borderRadius: BorderRadius.circular(14),
@@ -170,17 +154,6 @@ class ProductsPage extends StatelessWidget {
                             fontWeight: FontWeight.bold,
                           ),
                     ),
-                    // const SizedBox(height: 10),
-                    // Text(
-                    //   "Portable and high quality foldable barbeque stand made from 304 grade Stainless Steel and weighs in at around 4kgs only which makes it extremely sturdy and built to withstand even the cruelest grilling conditions. Designed with convinience in mind such as being easy to assemble, disassemble and simple to clean.",
-                    //   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                    //         fontWeight: FontWeight.bold,
-                    //         color: WebTheme.darkText,
-                    //       ),
-                    //   overflow: desktopWidth > width || width > mobileWidth
-                    //       ? TextOverflow.ellipsis
-                    //       : null,
-                    // ),
                     const SizedBox(height: 16),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,

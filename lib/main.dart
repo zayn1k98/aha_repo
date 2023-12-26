@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:aha_camping_web/pages/about_us/about_us_page.dart';
 import 'package:aha_camping_web/pages/aha_bbq/aha_bbq.dart';
 import 'package:aha_camping_web/pages/home/home_page.dart';
@@ -12,11 +11,13 @@ import 'firebase_options.dart';
 import 'package:flutter/material.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
-  ).then((value) {
-    log("!!! FIREBASE INITIALISED !!!");
-  });
+  );
+  print("!!! FIREBASE INITIALISED !!!");
+
   runApp(const MyApp());
 }
 
