@@ -1,8 +1,6 @@
 import 'dart:developer';
-
 import 'package:aha_camping_web/models/faq_model/faq_model.dart';
 import 'package:aha_camping_web/pages/about_us/about_us_page.dart';
-import 'package:aha_camping_web/pages/aha_bbq/aha_bbq.dart';
 import 'package:aha_camping_web/pages/products/all_products.dart';
 import 'package:aha_camping_web/pages/products/product_details_page.dart';
 import 'package:aha_camping_web/services/faq_services.dart';
@@ -104,7 +102,15 @@ class _HomePageState extends State<HomePage> {
           ListTile(
             leading: const Icon(Icons.shopping_bag_outlined),
             title: const Text('Our Products'),
-            onTap: () {},
+            onTap: () {
+              Navigator.pushNamed(
+                context,
+                AllProductsPage.route,
+                arguments: AllProductsArguments(
+                  products: allProducts,
+                ),
+              );
+            },
           ),
           ListTile(
             leading: const Icon(Icons.stream_sharp),
@@ -188,7 +194,13 @@ class _HomePageState extends State<HomePage> {
           ),
           child: ElevatedButton(
             onPressed: () {
-              Navigator.pushNamed(context, AllProductsPage.route);
+              Navigator.pushNamed(
+                context,
+                AllProductsPage.route,
+                arguments: AllProductsArguments(
+                  products: allProducts,
+                ),
+              );
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.green[600],
@@ -744,7 +756,7 @@ class _HomePageState extends State<HomePage> {
 
   Widget mobileFooter() {
     return Container(
-      height: 220,
+      height: 250,
       color: Colors.grey[300],
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -1017,7 +1029,13 @@ class _HomePageState extends State<HomePage> {
               padding: const EdgeInsets.only(bottom: 30),
               child: ElevatedButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, AllProductsPage.route);
+                  Navigator.pushNamed(
+                    context,
+                    AllProductsPage.route,
+                    arguments: AllProductsArguments(
+                      products: allProducts,
+                    ),
+                  );
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.green[600],
