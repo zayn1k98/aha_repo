@@ -5,7 +5,7 @@ class WebTheme {
   static const Color lightText = Colors.white;
 
   static ThemeData webTheme = ThemeData.light().copyWith(
-    useMaterial3: true,
+    // useMaterial3: true,
     appBarTheme: const AppBarTheme(
       iconTheme: IconThemeData(
         color: Colors.white,
