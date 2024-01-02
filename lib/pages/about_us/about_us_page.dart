@@ -1,3 +1,4 @@
+import 'package:aha_camping_web/pages/contact_us/contact_us_page.dart';
 import 'package:aha_camping_web/services/features_services.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -550,7 +551,12 @@ class _AboutUsPageState extends State<AboutUsPage> {
                 child: Column(
                   children: [
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                          return const ContactUsPage();
+                        }));
+                      },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.green,
                         shape: RoundedRectangleBorder(
