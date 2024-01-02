@@ -1,9 +1,11 @@
 import 'dart:developer';
 import 'package:aha_camping_web/models/faq_model/faq_model.dart';
 import 'package:aha_camping_web/pages/about_us/about_us_page.dart';
+import 'package:aha_camping_web/pages/contact_us/contact_us_page.dart';
 import 'package:aha_camping_web/pages/products/all_products.dart';
 import 'package:aha_camping_web/pages/products/product_details_page.dart';
 import 'package:aha_camping_web/services/faq_services.dart';
+import 'package:aha_camping_web/services/features_services.dart';
 import 'package:aha_camping_web/services/product_services.dart';
 import 'package:aha_camping_web/services/testimonial_services.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -62,10 +64,19 @@ class _HomePageState extends State<HomePage> {
     allTestimonials = await TestimonialServices().getAllTestimonials();
   }
 
+  List allFeatures = [];
+
+  void getAllFeatures() async {
+    allFeatures = await FeaturesServices().getAllFeatures();
+
+    print("ALL FEATURES : $allFeatures");
+  }
+
   double screenSize = 0;
 
   void getAllData() {
     getAllProducts();
+    getAllFeatures();
     getAllFaqs();
     getTestimonials();
   }
@@ -96,9 +107,17 @@ class _HomePageState extends State<HomePage> {
 
   Widget drawer() {
     return Drawer(
+      backgroundColor: Colors.white,
       child: Column(
         children: [
-          const SizedBox(height: 30),
+          // const SizedBox(height: 30),
+          Center(
+            child: Image.asset(
+              "assets/logo/custom_logo.png",
+              height: 80,
+              width: 100,
+            ),
+          ),
           ListTile(
             leading: const Icon(Icons.shopping_bag_outlined),
             title: const Text('Our Products'),
@@ -115,7 +134,20 @@ class _HomePageState extends State<HomePage> {
           ListTile(
             leading: const Icon(Icons.stream_sharp),
             title: const Text('Our Story'),
-            onTap: () {},
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return const AboutUsPage();
+              }));
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.contact_support_outlined),
+            title: const Text('Contact Us'),
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return const ContactUsPage();
+              }));
+            },
           ),
         ],
       ),
@@ -129,6 +161,7 @@ class _HomePageState extends State<HomePage> {
         mobileBanner(),
         mobileFeatures(),
         mobileProducts(),
+        mobileComingSoon(),
         mobileTestimonials(),
         mobileFaqs(),
         mobileCallToAction(),
@@ -224,111 +257,48 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget mobileFeatures() {
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
+    return ListView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: allFeatures.length,
+      itemBuilder: (context, index) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 40,
+            vertical: 25,
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              Row(
-                children: [
-                  const Icon(
-                    Icons.format_list_bulleted_rounded,
-                  ),
-                  const SizedBox(width: 16),
-                  Text(
-                    "Feature 1",
-                    style: GoogleFonts.montserrat(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                      letterSpacing: 0.5,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 16),
+              index == 1
+                  ? Image.asset(
+                      'assets/icons/portable.png',
+                      height: 60,
+                      width: 60,
+                    )
+                  : const SizedBox(),
               Text(
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Eget nullam non nisi est. Cursus sit amet dictum sit amet justo.",
-                style: GoogleFonts.montserrat(
-                  fontSize: 14,
-                  color: Colors.grey[900],
+                allFeatures[index]['title'],
+                style: GoogleFonts.oswald(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
                   letterSpacing: 0.5,
-                  height: 1.5,
                 ),
               ),
+              index != 1
+                  ? Image.asset(
+                      index == 0
+                          ? 'assets/icons/reliable.png'
+                          : 'assets/icons/customisable.png',
+                      height: 60,
+                      width: 60,
+                    )
+                  : const SizedBox()
             ],
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  const Icon(
-                    Icons.format_list_bulleted_rounded,
-                  ),
-                  const SizedBox(width: 16),
-                  Text(
-                    "Feature 1",
-                    style: GoogleFonts.montserrat(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                      letterSpacing: 0.5,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 16),
-              Text(
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Eget nullam non nisi est. Cursus sit amet dictum sit amet justo.",
-                style: GoogleFonts.montserrat(
-                  fontSize: 14,
-                  color: Colors.grey[900],
-                  letterSpacing: 0.5,
-                  height: 1.5,
-                ),
-              ),
-            ],
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  const Icon(
-                    Icons.format_list_bulleted_rounded,
-                  ),
-                  const SizedBox(width: 16),
-                  Text(
-                    "Feature 1",
-                    style: GoogleFonts.montserrat(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                      letterSpacing: 0.5,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 16),
-              Text(
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Eget nullam non nisi est. Cursus sit amet dictum sit amet justo.",
-                style: GoogleFonts.montserrat(
-                  fontSize: 14,
-                  color: Colors.grey[900],
-                  letterSpacing: 0.5,
-                  height: 1.5,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
+        );
+      },
     );
   }
 
@@ -516,6 +486,115 @@ class _HomePageState extends State<HomePage> {
                 );
               },
             ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget mobileComingSoon() {
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(20),
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              Container(
+                height: MediaQuery.of(context).size.height * 0.5,
+                decoration: BoxDecoration(
+                  // color: Colors.cyan,
+                  borderRadius: BorderRadius.circular(16),
+                  image: const DecorationImage(
+                    image: NetworkImage(
+                        'https://images.unsplash.com/photo-1520101244246-293f77ffc39e?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+              Container(
+                height: MediaQuery.of(context).size.height * 0.5,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16),
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Colors.transparent,
+                      Colors.black.withOpacity(0.5),
+                    ],
+                    stops: const [
+                      0.25,
+                      0.5,
+                    ],
+                  ),
+                ),
+                child: Center(
+                  child: Text(
+                    "COMING SOON",
+                    style: GoogleFonts.montserrat(
+                      fontSize: 50,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                      letterSpacing: 0.4,
+                      height: 2,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(20),
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              Container(
+                height: MediaQuery.of(context).size.height * 0.5,
+                decoration: BoxDecoration(
+                  // color: Colors.cyan,
+                  borderRadius: BorderRadius.circular(16),
+                  image: const DecorationImage(
+                    image: NetworkImage(
+                        'https://rainieroutdoor.com/media/catalog/product/cache/6a9b62d285cac88acccab73fdbb74afe/e/a/eagleyurt_1_1.jpg'),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+              Container(
+                height: MediaQuery.of(context).size.height * 0.5,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16),
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Colors.transparent,
+                      Colors.black.withOpacity(0.5),
+                    ],
+                    stops: const [
+                      0.25,
+                      0.5,
+                    ],
+                  ),
+                ),
+                child: Center(
+                  child: Text(
+                    "COMING SOON",
+                    style: GoogleFonts.montserrat(
+                      fontSize: 50,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                      letterSpacing: 0.4,
+                      height: 2,
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ],
@@ -711,21 +790,29 @@ class _HomePageState extends State<HomePage> {
 
   Widget mobileCallToAction() {
     return Container(
-      color: Colors.grey[200],
-      // height: 500,
+      // color: Colors.grey[200],
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+          image: NetworkImage(
+            'https://images.unsplash.com/photo-1609788063095-d71bf3c1f01f?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+          ),
+          fit: BoxFit.cover,
+        ),
+      ),
       child: Padding(
         padding: const EdgeInsets.all(40),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Text(
-              "Another line guiding user to call to action",
+              "Escape, Explore, Enjoy!",
               style: GoogleFonts.montserrat(
                 fontSize: 36,
                 fontWeight: FontWeight.bold,
-                color: Colors.black,
+                color: Colors.white,
                 letterSpacing: 0.5,
               ),
+              textAlign: TextAlign.center,
             ),
             Padding(
               padding: const EdgeInsets.only(top: 40),
@@ -737,7 +824,7 @@ class _HomePageState extends State<HomePage> {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 12),
                   child: Text(
-                    "Button Title",
+                    "Camping Essentials Inside!",
                     style: GoogleFonts.montserrat(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
@@ -782,7 +869,12 @@ class _HomePageState extends State<HomePage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                          return const AboutUsPage();
+                        }));
+                      },
                       child: Text(
                         "About us",
                         style: GoogleFonts.poppins(
@@ -793,32 +885,37 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                     ),
+                    // TextButton(
+                    //   onPressed: () {},
+                    //   child: Text(
+                    //     "Privacy Policy",
+                    //     style: GoogleFonts.poppins(
+                    //       color: Colors.green,
+                    //       letterSpacing: 0.5,
+                    //       fontWeight: FontWeight.w600,
+                    //       fontSize: 14,
+                    //     ),
+                    //   ),
+                    // ),
+                    // TextButton(
+                    //   onPressed: () {},
+                    //   child: Text(
+                    //     "Terms & Conditions",
+                    //     style: GoogleFonts.poppins(
+                    //       color: Colors.green,
+                    //       letterSpacing: 0.5,
+                    //       fontWeight: FontWeight.w600,
+                    //       fontSize: 14,
+                    //     ),
+                    //   ),
+                    // ),
                     TextButton(
-                      onPressed: () {},
-                      child: Text(
-                        "Privacy Policy",
-                        style: GoogleFonts.poppins(
-                          color: Colors.green,
-                          letterSpacing: 0.5,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 14,
-                        ),
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: () {},
-                      child: Text(
-                        "Terms & Conditions",
-                        style: GoogleFonts.poppins(
-                          color: Colors.green,
-                          letterSpacing: 0.5,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 14,
-                        ),
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                          return const ContactUsPage();
+                        }));
+                      },
                       child: Text(
                         "Contact us",
                         style: GoogleFonts.poppins(
@@ -869,6 +966,7 @@ class _HomePageState extends State<HomePage> {
         homeBanner(),
         features(),
         campTools(),
+        comingSoon(),
         testimonials(),
         faqSection(),
         callToAction(),
@@ -931,6 +1029,20 @@ class _HomePageState extends State<HomePage> {
               },
               child: Text(
                 "Our Story",
+                style: GoogleFonts.poppins(
+                  color: Colors.green,
+                  letterSpacing: 0.5,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pushNamed(context, ContactUsPage.route);
+              },
+              child: Text(
+                "Get in touch",
                 style: GoogleFonts.poppins(
                   color: Colors.green,
                   letterSpacing: 0.5,
@@ -1062,116 +1174,199 @@ class _HomePageState extends State<HomePage> {
 
   Widget features() {
     return Padding(
-      padding: const EdgeInsets.all(40),
-      child: Row(
-        children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    const Icon(
-                      Icons.format_list_bulleted_rounded,
-                    ),
-                    const SizedBox(width: 16),
-                    Text(
-                      "Feature 1",
-                      style: GoogleFonts.montserrat(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                        letterSpacing: 0.5,
+      padding: const EdgeInsets.symmetric(vertical: 40),
+      child: SizedBox(
+        height: MediaQuery.of(context).size.height * 0.35,
+        width: double.infinity,
+        child: ListView.builder(
+          shrinkWrap: true,
+          scrollDirection: Axis.horizontal,
+          itemCount: allFeatures.length,
+          itemExtent: MediaQuery.of(context).size.width / 3,
+          itemBuilder: (context, index) {
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 0),
+              child: Row(
+                children: [
+                  index == 1 ? const VerticalDivider() : const SizedBox(),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Image.asset(
+                                index == 0
+                                    ? 'assets/icons/reliable.png'
+                                    : index == 1
+                                        ? 'assets/icons/portable.png'
+                                        : 'assets/icons/customisable.png',
+                                height: 50,
+                                width: 50,
+                              ),
+                              const SizedBox(width: 20),
+                              Text(
+                                allFeatures[index]['title'],
+                                style: GoogleFonts.montserrat(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                  letterSpacing: 0.5,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 20),
+                              child: Text(
+                                allFeatures[index]['description'],
+                                style: GoogleFonts.montserrat(
+                                  fontSize: 16,
+                                  color: Colors.grey[900],
+                                  letterSpacing: 0.5,
+                                  height: 1.5,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                  ],
-                ),
-                const SizedBox(height: 16),
-                Text(
-                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Eget nullam non nisi est. Cursus sit amet dictum sit amet justo.",
-                  style: GoogleFonts.montserrat(
-                    fontSize: 14,
-                    color: Colors.grey[900],
-                    letterSpacing: 0.5,
-                    height: 1.5,
                   ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(width: 30),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    const Icon(
-                      Icons.format_list_bulleted_rounded,
-                    ),
-                    const SizedBox(width: 16),
-                    Text(
-                      "Feature 1",
-                      style: GoogleFonts.montserrat(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                        letterSpacing: 0.5,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 16),
-                Text(
-                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Eget nullam non nisi est. Cursus sit amet dictum sit amet justo.",
-                  style: GoogleFonts.montserrat(
-                    fontSize: 14,
-                    color: Colors.grey[900],
-                    letterSpacing: 0.5,
-                    height: 1.5,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(width: 30),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    const Icon(
-                      Icons.format_list_bulleted_rounded,
-                    ),
-                    const SizedBox(width: 16),
-                    Text(
-                      "Feature 1",
-                      style: GoogleFonts.montserrat(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                        letterSpacing: 0.5,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 16),
-                Text(
-                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Eget nullam non nisi est. Cursus sit amet dictum sit amet justo.",
-                  style: GoogleFonts.montserrat(
-                    fontSize: 14,
-                    color: Colors.grey[900],
-                    letterSpacing: 0.5,
-                    height: 1.5,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
+                  index == 1 ? const VerticalDivider() : const SizedBox(),
+                ],
+              ),
+            );
+          },
+        ),
       ),
     );
+    // return Padding(
+    //   padding: const EdgeInsets.all(40),
+    //   child: Row(
+    //     children: [
+    //       Expanded(
+    //         child: Column(
+    //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    //           crossAxisAlignment: CrossAxisAlignment.start,
+    //           children: [
+    //             Row(
+    //               children: [
+    //                 const Icon(
+    //                   Icons.format_list_bulleted_rounded,
+    //                 ),
+    //                 const SizedBox(width: 16),
+    //                 Text(
+    //                   allFeatures[0]['title'],
+    //                   style: GoogleFonts.montserrat(
+    //                     fontSize: 18,
+    //                     fontWeight: FontWeight.bold,
+    //                     color: Colors.black,
+    //                     letterSpacing: 0.5,
+    //                   ),
+    //                 ),
+    //               ],
+    //             ),
+    //             const SizedBox(height: 16),
+    //             Text(
+    //               allFeatures[0]['description'],
+    //               style: GoogleFonts.montserrat(
+    //                 fontSize: 14,
+    //                 color: Colors.grey[900],
+    //                 letterSpacing: 0.5,
+    //                 height: 1.5,
+    //               ),
+    //             ),
+    //           ],
+    //         ),
+    //       ),
+    //       const SizedBox(width: 30),
+    //       Expanded(
+    //         child: Column(
+    //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    //           crossAxisAlignment: CrossAxisAlignment.start,
+    //           children: [
+    //             Row(
+    //               children: [
+    //                 const Icon(
+    //                   Icons.format_list_bulleted_rounded,
+    //                 ),
+    //                 const SizedBox(width: 16),
+    //                 Text(
+    //                   allFeatures[1]['title'],
+    //                   style: GoogleFonts.montserrat(
+    //                     fontSize: 18,
+    //                     fontWeight: FontWeight.bold,
+    //                     color: Colors.black,
+    //                     letterSpacing: 0.5,
+    //                   ),
+    //                 ),
+    //               ],
+    //             ),
+    //             const SizedBox(height: 16),
+    //             Text(
+    //               allFeatures[1]['description'],
+    //               style: GoogleFonts.montserrat(
+    //                 fontSize: 14,
+    //                 color: Colors.grey[900],
+    //                 letterSpacing: 0.5,
+    //                 height: 1.5,
+    //               ),
+    //             ),
+    //           ],
+    //         ),
+    //       ),
+    //       const SizedBox(width: 30),
+    //       Row(
+    //         children: [
+    //           Column(
+    //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    //             crossAxisAlignment: CrossAxisAlignment.start,
+    //             children: [
+    //               Row(
+    //                 children: [
+    //                   const Icon(
+    //                     Icons.format_list_bulleted_rounded,
+    //                   ),
+    //                   const SizedBox(width: 16),
+    //                   Text(
+    //                     allFeatures[2]['title'],
+    //                     style: GoogleFonts.montserrat(
+    //                       fontSize: 18,
+    //                       fontWeight: FontWeight.bold,
+    //                       color: Colors.black,
+    //                       letterSpacing: 0.5,
+    //                     ),
+    //                   ),
+    //                 ],
+    //               ),
+    //               const SizedBox(height: 16),
+    //               Expanded(
+    //                 child: Column(
+    //                   children: [
+    //                     Text(
+    //                       allFeatures[2]['description'],
+    //                       style: GoogleFonts.montserrat(
+    //                         fontSize: 14,
+    //                         color: Colors.grey[900],
+    //                         letterSpacing: 0.5,
+    //                         height: 1.5,
+    //                       ),
+    //                     ),
+    //                   ],
+    //                 ),
+    //               ),
+    //             ],
+    //           ),
+    //         ],
+    //       ),
+    //     ],
+    //   ),
+    // );
   }
 
   List buttonHoverValues = [];
@@ -1216,7 +1411,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(vertical: 40),
+          padding: const EdgeInsets.symmetric(vertical: 30),
           child: SizedBox(
             height: MediaQuery.of(context).size.height * 0.85,
             child: ListView.builder(
@@ -1371,6 +1566,122 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  Widget comingSoon() {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 30),
+      child: Row(
+        children: [
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  Container(
+                    height: MediaQuery.of(context).size.height * 0.5,
+                    decoration: BoxDecoration(
+                      // color: Colors.cyan,
+                      borderRadius: BorderRadius.circular(16),
+                      image: const DecorationImage(
+                        image: NetworkImage(
+                            'https://images.unsplash.com/photo-1520101244246-293f77ffc39e?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    height: MediaQuery.of(context).size.height * 0.5,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16),
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          Colors.transparent,
+                          Colors.black.withOpacity(0.5),
+                        ],
+                        stops: const [
+                          0.25,
+                          0.5,
+                        ],
+                      ),
+                    ),
+                    child: Center(
+                      child: Text(
+                        "COMING SOON",
+                        style: GoogleFonts.montserrat(
+                          fontSize: 50,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                          letterSpacing: 0.4,
+                          height: 2,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  Container(
+                    height: MediaQuery.of(context).size.height * 0.5,
+                    decoration: BoxDecoration(
+                      // color: Colors.cyan,
+                      borderRadius: BorderRadius.circular(16),
+                      image: const DecorationImage(
+                        image: NetworkImage(
+                            'https://rainieroutdoor.com/media/catalog/product/cache/6a9b62d285cac88acccab73fdbb74afe/e/a/eagleyurt_1_1.jpg'),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    height: MediaQuery.of(context).size.height * 0.5,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16),
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          Colors.transparent,
+                          Colors.black.withOpacity(0.5),
+                        ],
+                        stops: const [
+                          0.25,
+                          0.5,
+                        ],
+                      ),
+                    ),
+                    child: Center(
+                      child: Text(
+                        "COMING SOON",
+                        style: GoogleFonts.montserrat(
+                          fontSize: 50,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                          letterSpacing: 0.4,
+                          height: 2,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget testimonials() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -1389,76 +1700,72 @@ class _HomePageState extends State<HomePage> {
         ),
         Padding(
           padding: const EdgeInsets.only(bottom: 60),
-          child: SizedBox(
-            height: 400,
-            width: double.infinity,
-            // color: Colors.grey[100],
-            child: CarouselSlider.builder(
-              itemCount: 6,
-              itemBuilder: (context, index, altIndex) {
-                return Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.grey[200],
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Eget nullam non nisi est. Cursus sit amet dictum sit amet.",
+          child: CarouselSlider.builder(
+            itemCount: allTestimonials.length,
+            itemBuilder: (context, index, altIndex) {
+              return Padding(
+                padding: const EdgeInsets.all(20),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.grey[200],
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          allTestimonials[index]['review'],
+                          style: GoogleFonts.montserrat(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.black,
+                            letterSpacing: 0.5,
+                            height: 2,
+                          ),
+                        ),
+                        const Spacer(),
+                        // CircleAvatar(
+                        //   backgroundColor: Colors.grey[300],
+                        //   radius: 24,
+                        // ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 10),
+                          child: Text(
+                            allTestimonials[index]['from'],
                             style: GoogleFonts.montserrat(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
                               color: Colors.black,
                               letterSpacing: 0.5,
-                              height: 2,
                             ),
                           ),
-                          const Spacer(),
-                          CircleAvatar(
-                            backgroundColor: Colors.grey[300],
-                            radius: 24,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 10),
-                            child: Text(
-                              "Hasan",
-                              style: GoogleFonts.montserrat(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
-                                letterSpacing: 0.5,
-                              ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 6),
+                          child: Text(
+                            allTestimonials[index]['designation'],
+                            style: GoogleFonts.montserrat(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.grey[900],
+                              letterSpacing: 0.5,
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 6),
-                            child: Text(
-                              "Propreitor",
-                              style: GoogleFonts.montserrat(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.grey[900],
-                                letterSpacing: 0.5,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
-                );
-              },
-              options: CarouselOptions(
-                autoPlay: true,
-                enlargeCenterPage: true,
-                pageSnapping: true,
-                viewportFraction: 1 / 4,
-              ),
+                ),
+              );
+            },
+            options: CarouselOptions(
+              autoPlay: true,
+              enlargeCenterPage: true,
+              pageSnapping: true,
+              viewportFraction: 1 / 2,
+              height: 320,
             ),
           ),
         ),
@@ -1498,7 +1805,7 @@ class _HomePageState extends State<HomePage> {
                 child: ListView.builder(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
-                  itemCount: faq.length,
+                  itemCount: allFaqs.length,
                   itemBuilder: (context, index) {
                     return Padding(
                       padding: const EdgeInsets.only(bottom: 20),
@@ -1508,13 +1815,14 @@ class _HomePageState extends State<HomePage> {
                           elevation: 0,
                           children: [
                             ExpansionPanel(
-                              isExpanded: isQuestionExpanded,
+                              isExpanded: expandValues[index],
                               canTapOnHeader: true,
                               headerBuilder: (context, isExpanded) {
                                 return GestureDetector(
                                   onTap: () {
                                     setState(() {
-                                      isQuestionExpanded = !isQuestionExpanded;
+                                      expandValues[index] =
+                                          !expandValues[index];
                                     });
                                   },
                                   child: ListTile(
@@ -1525,7 +1833,7 @@ class _HomePageState extends State<HomePage> {
                                       padding: const EdgeInsets.symmetric(
                                           vertical: 10),
                                       child: Text(
-                                        faq[index].question,
+                                        allFaqs[index]['question'],
                                         style: GoogleFonts.montserrat(
                                           fontSize: 16,
                                           fontWeight: FontWeight.w600,
@@ -1541,7 +1849,7 @@ class _HomePageState extends State<HomePage> {
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(16),
                                 ),
-                                title: Text(faq[index].answer),
+                                title: Text(allFaqs[index]['answer']),
                               ),
                             ),
                           ],
@@ -1557,7 +1865,15 @@ class _HomePageState extends State<HomePage> {
 
   Widget callToAction() {
     return Container(
-      color: Colors.grey[200],
+      // color: Colors.grey[200],
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+          image: NetworkImage(
+            'https://images.unsplash.com/photo-1609788063095-d71bf3c1f01f?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+          ),
+          fit: BoxFit.cover,
+        ),
+      ),
       height: 500,
       child: Padding(
         padding: const EdgeInsets.all(40),
@@ -1565,11 +1881,11 @@ class _HomePageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Text(
-              "Another line guiding user to call to action",
+              "Escape, Explore, Enjoy!",
               style: GoogleFonts.montserrat(
                 fontSize: 50,
                 fontWeight: FontWeight.bold,
-                color: Colors.black,
+                color: Colors.white,
                 letterSpacing: 0.5,
               ),
             ),
@@ -1583,7 +1899,7 @@ class _HomePageState extends State<HomePage> {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 12),
                   child: Text(
-                    "Button Title",
+                    "Camping Essentials Inside!",
                     style: GoogleFonts.montserrat(
                       fontSize: 20,
                       fontWeight: FontWeight.w500,

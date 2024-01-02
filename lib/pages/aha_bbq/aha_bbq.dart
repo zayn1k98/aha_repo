@@ -105,7 +105,7 @@ class _AhaBbqPageState extends State<AhaBbqPage> {
                           borderRadius: BorderRadius.circular(16),
                           image: DecorationImage(
                             image: NetworkImage(
-                              products[index]['images'][index],
+                              "products[index]['images'][index]",
                             ),
                             fit: BoxFit.cover,
                           ),
@@ -125,7 +125,7 @@ class _AhaBbqPageState extends State<AhaBbqPage> {
                               children: [
                                 Expanded(
                                   child: Text(
-                                    products[index]["title"],
+                                    ' products[index]["title"]',
                                     style: GoogleFonts.inter(
                                       color: Colors.black,
                                       letterSpacing: 0.5,
@@ -137,7 +137,7 @@ class _AhaBbqPageState extends State<AhaBbqPage> {
                                 Padding(
                                   padding: const EdgeInsets.only(left: 16),
                                   child: Text(
-                                    products[index]["price"],
+                                    ' products[index]["price"]',
                                     style: GoogleFonts.inter(
                                       color: Colors.green[600],
                                       letterSpacing: 0.5,
@@ -151,7 +151,7 @@ class _AhaBbqPageState extends State<AhaBbqPage> {
                             Padding(
                               padding: const EdgeInsets.symmetric(vertical: 16),
                               child: Text(
-                                products[index]["description"],
+                                '  products[index]["description"]',
                                 style: GoogleFonts.inter(
                                   color: Colors.grey[600],
                                   letterSpacing: 0.5,
