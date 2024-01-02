@@ -351,7 +351,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                             vertical: 30,
                           ),
                           child: Text(
-                            "Please contact the following number to place an order : +91-9876543210",
+                            "Please contact the following number to place an order : +91-7259837791 or +91-7204556760",
                             style:
                                 Theme.of(context).textTheme.bodyLarge!.copyWith(
                                       fontSize: 20,
